@@ -1,0 +1,216 @@
+# Complete Bug Fix and Full Validation for Insurance Claim Calculator Project
+
+## Role & Objective
+
+You are a senior software engineer tasked with:
+1. Creating a fixed version of a buggy Python insurance claim calculator project by analyzing issues and implementing corrections
+2. Executing comprehensive validation and verification of the fixed project to ensure all tests pass and functionality is correct
+
+## Inputs & Context
+
+**Source Project:** `issue_project/` directory containing:
+- `src/insurance_claim.py` - buggy implementation
+- `tests/test_claim_calculator.py` - test suite
+- `README.md` - business requirements
+- `KNOWN_ISSUE.md` - bug documentation
+- `requirements.txt` - dependencies
+
+**Target Workspace:** `C:\BugBash\workSpace2\oswe-mini-m23a1s255`
+
+**Output Project:** `issue_project_fixed/` - new fixed version to be created as sibling directory
+
+**Reference Documentation:** FIX_PROMPT.md for complete task specifications
+
+## Step-by-Step Instructions
+
+### Phase 1: Analyze the Buggy Project
+1. Read `README.md` to understand business requirements and design
+2. Read `KNOWN_ISSUE.md` to identify documented bugs
+3. Examine `tests/test_claim_calculator.py` to understand test expectations
+4. Study `src/insurance_claim.py` to identify buggy code sections
+5. Note: 16 total tests with 5 currently failing
+
+### Phase 2: Create Fixed Project Structure
+Create new directory: `issue_project_fixed/` with structure:
+```
+issue_project_fixed/
+├── src/
+│   ├── __init__.py
+│   └── insurance_claim.py          # FIXED version
+├── tests/
+│   ├── __init__.py
+│   └── test_claim_calculator.py    # Original tests (unchanged)
+├── demo_fixed.py                    # Demo script with examples
+├── README.md                        # Updated documentation
+├── FIX_REPORT.md                    # Fix documentation
+└── requirements.txt                 # Copy of dependencies
+```
+
+### Phase 3: Identify and Fix All Bugs
+Based on KNOWN_ISSUE.md, fix the following bugs:
+
+**Bug 1: Deductible Boundary Condition**
+- Location: `_calculate_deductible()` function
+- Problem: Uses `<` operator instead of `<=` at 2000 loss amount threshold
+- Fix: Change `if loss_amount < 2000:` to `if loss_amount <= 2000:`
+- Impact: Ensures loss amount exactly 2000 correctly uses the fixed 500 CNY deductible
+
+**Bug 2: Missing Driving Years Bonus Application**
+- Location: `calculate_payout()` function
+- Problem: `_apply_driving_bonus()` method exists but is never called
+- Fix: Apply `_apply_driving_bonus()` after liability coefficient calculation and before policy limit/minimum payout checks
+- Bonus tiers: 3 years = +5%, 5 years = +10%, 10+ years = +15%
+- Impact: Driving experience bonuses now correctly applied to final payout
+
+**Requirements:**
+- Maintain identical public API (class names, method signatures)
+- Do NOT modify test cases
+- Do NOT change code structure or style
+- All 16 tests must pass after fixes
+
+### Phase 4: Create Supporting Documentation and Demo
+1. **demo_fixed.py** - Demonstration script showing:
+   - Example scenarios with correct calculations
+   - Boundary cases (loss=2000)
+   - Driving bonus scenarios
+   - Output format: Request details → Payout amount
+
+2. **README.md** - Updated documentation:
+   - Mark as fixed version
+   - Explain the bugs that were fixed
+   - Include usage examples
+
+3. **FIX_REPORT.md** - Comprehensive fix documentation:
+   - Summary of bugs found
+   - For each bug:
+     * File and function affected
+     * Problem description
+     * Fix explanation
+     * Code changes made
+   - Test results (16/16 passing)
+   - Verification examples
+   - Demo output samples
+
+4. **requirements.txt** - Copy from original project
+
+### Phase 5: Verify Fixed Project Creates Correct Test Results
+Run tests to confirm: `pytest -q` → all 16 tests pass
+
+### Phase 6: Execute Full Project Validation
+Execute the following validation tasks in order:
+
+**Task 1: Install Dependencies**
+- Run: `pip install -r requirements.txt` in `issue_project_fixed`
+- Verify: no installation errors
+
+**Task 2: Run Complete Test Suite**
+- Run: `pytest -q` in `issue_project_fixed`
+- Verify: all 16 tests pass with output "16 passed"
+- Capture: full test output
+
+**Task 3: Run Demo Script**
+- Run: `python demo_fixed.py` in `issue_project_fixed`
+- Verify: script executes without errors
+- Capture: all demo output showing calculated payouts
+
+**Task 4: Sanity Check Original Project**
+- Run: `cd issue_project` && `pytest -q`
+- Verify: original project still shows 5 failing tests (confirms unchanged)
+- Capture: output showing failures
+
+**Task 5: Verify System Launch and Runtime**
+- Confirm: fixed project imports and loads without errors
+- Confirm: demo runs successfully showing example payouts
+- Confirm: no runtime errors or exceptions during execution
+
+## Output Specification
+
+**Primary Deliverables:**
+1. Complete `issue_project_fixed/` directory with all required files
+2. All bugs fixed in `src/insurance_claim.py`
+3. All 16 unit tests passing with zero failures
+4. `FIX_REPORT.md` documenting all changes with examples
+5. `demo_fixed.py` with correct calculation examples
+6. All outputs and logs captured
+
+**Captured Output Requirements:**
+1. Dependency installation results (pip install output)
+2. Full test suite output showing 16 passed
+3. Demo script output with example payouts like:
+   - `Request={... loss:2000, driving_years:5 ...} -> Payout=1320.0 CNY`
+   - `Request={... loss:5000, driving_years:3 ...} -> Payout=3780.0 CNY`
+   - `Request={... loss:15000, third_party, primary, 7y, limit:20000 ...} -> Payout=5890.5 CNY`
+4. Original project sanity check output showing 5 failures
+5. Any error traces if failures occur
+
+**Success Indicators:**
+- Fixed project test output: "16 passed"
+- Original project test output: "5 failed, 11 passed" (unchanged)
+- Demo executes without errors
+- System launches successfully
+- All business rules correctly implemented
+
+## Constraints & Preferences
+
+1. **Code Quality:**
+   - Maintain existing code style and structure
+   - Apply minimal, targeted fixes only
+   - Preserve all comments and documentation
+
+2. **API Compatibility:**
+   - Do NOT change class or method names
+   - Do NOT change method signatures
+   - Maintain backward compatibility
+
+3. **Test Integrity:**
+   - Do NOT modify any test cases
+   - Tests define correct behavior
+   - Fixes must make tests pass
+
+4. **Project Integrity:**
+   - Do NOT modify original `issue_project/` directory
+   - All work in new `issue_project_fixed/` directory
+   - Original remains as baseline reference
+
+5. **Validation Requirements:**
+   - Capture all terminal outputs and logs
+   - Document system launch success/failure
+   - Test all scenarios provided in test suite
+   - Verify consistent behavior under all test conditions
+   - Explicitly state final test pass/fail status
+
+## Quality Gates & Completion Checklist
+
+Complete the task only when:
+- [ ] `issue_project_fixed/` directory created with exact structure specified
+- [ ] All source files copied with bug fixes applied
+- [ ] All 16 tests pass: test output shows "16 passed"
+- [ ] Code coverage ≥ 85% (verify via pytest --cov if needed)
+- [ ] `FIX_REPORT.md` completely documents all changes
+- [ ] `demo_fixed.py` runs successfully with correct outputs
+- [ ] Original `issue_project/` remains untouched
+- [ ] System launches successfully without errors ✅
+- [ ] All automated test cases pass (16/16) ✅
+- [ ] Behavior matches all business rules consistently ✅
+- [ ] All terminal outputs, logs, and error traces captured
+- [ ] Final summary explicitly states: "All automated tests passed — 16/16"
+
+## Expected Bugs to Fix
+
+Based on KNOWN_ISSUE.md and test failures:
+
+1. **Deductible Boundary Bug** - affects 1+ tests
+   - Incorrect boundary check at loss_amount=2000
+   - Simple fix: operator change `<` to `<=`
+
+2. **Missing Driving Bonus Application** - affects 4+ tests
+   - Bonus calculation exists but never called
+   - Fix: integrate bonus into `calculate_payout()` function
+
+Both bugs must be fixed for all 16 tests to pass.
+
+---
+
+**CRITICAL EXECUTION REQUIREMENTS:**
+
+Execute all phases sequentially and completely. Capture all terminal outputs, test results, logs, and any error traces. Provide final comprehensive summary with explicit statement of test pass/fail status confirming all automated tests passed (16/16) and the project meets expected functionality with consistent behavior under all test scenarios.
